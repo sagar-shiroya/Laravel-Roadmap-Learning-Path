@@ -1,4 +1,4 @@
-# Routing and Controllers: Basics
+# **Routing and Controllers: Basics**
 
 ## **Basic Routing**
 
@@ -174,7 +174,7 @@ Route::get('/user/{name?}', function ($name = 'John') {
 });
 ```
 
-### **Constraint the format of Route Parameters**
+### **Validate Route Parameters(with regex helper)**
 
 `where` method can be used to constraint the route parameter on a route instance. `where` method accepts the name and regular expression as parameter:
 
@@ -197,3 +197,63 @@ For convenience, some of the regular expressions have helper methods which can b
 - whereNumber( ) (pattern: [0-9]+)
 - whereAlpha( ) (pattern: [A-Za-z]+)
 - whereAlphaNumric( ) (pattern: [A-Za-z0-9]+)
+
+----------
+
+## **Blade Basics**
+
+If you want to display data passed through view routes in blade template then you can use that variable by wrapping it with curly braces.
+
+```php
+//Route File
+Route::get('/', function () {
+    return view('welcome', ['name' => 'Samantha']);
+});
+
+//Blade Template
+Hello, {{name}}
+```
+
+*Note: Blade's {{ }} statement automatically passed through PHP's `htmlspecialchars` function to prevent XSS attacks.*
+
+You can also put any PHP function or PHP code wish to print inside blade echo statement:
+
+```PHP
+The current UNIX timestamp is {{ time() }}.
+```
+
+### **Rendering JSON**
+
+Sometimes if you want to pass variable to view in intention of rendering it as JSON in oreder to initialize as JS variable.
+
+```PHP
+<script>
+    var app = <?php echo json_encode($array); ?>;
+</script>
+```
+
+Instead of calling `json_encode()`, we can use the JSON Blade directive `@json`. It accepts the same arguments as PHP's json_encode()  function.
+
+```PHP
+<script>
+    var app = @json($array);
+    // OR
+    var app = @json($array, JSON_PRETTY_PRINT);
+</script>
+```
+
+Note: Double curly braces automatically passes the data thorugh htmlspecialchars function to prevent XSS attacks. If you don't want to escape it, you may use the below syntax:
+
+```PHP
+Hello, {!! $name !!}.
+```
+
+@ symbol used to escape the Blade directives.
+
+```PHP
+{{-- Blade template --}}
+@@json()
+
+<!-- HTML output -->
+@json()
+```
