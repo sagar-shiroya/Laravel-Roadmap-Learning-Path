@@ -16,14 +16,13 @@ Route::get('/greeting', function(){
 });
 ```
 
-/
 There are **four** different type of routes inside the route directory:
 
 - web.php (Route for web interface)
 - api.php
 - channels.php
 - console.php
-/
+
  **Different methods for routes:**
 
 ```php
