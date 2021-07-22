@@ -1,6 +1,7 @@
 # Routing and Controllers: Basics
 
 ## **Basic Routing**
+
 This is how most basic Laravel Routes looks like. It simply accepts URI & Closure.
 
 ```php
@@ -120,3 +121,79 @@ Route::get('/example/{params}', [ExampleController::class, 'action']);
 ```
 
 When an incoming request matches the specified route URI, the `action` method of the  `App\Http\Controllers\ExampleController` class will be invoked.
+
+## **Route Parameters**
+
+Sometimes you need to capture some details from the URI into your route. E.g. you need to capture ID from the route. Here's how you can do it:
+
+```php
+Route::get('/user/{id}', function ($id) {
+    return 'User' . $id;
+});
+```
+
+### **Multiple Route Parameters**
+
+Multiple route parameters can also be defined. There's no restriction on it.
+
+```php
+Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    // ...
+});
+```
+
+This parameters always:
+
+- Enclosed within { }
+- Consists of alpahbetic characters and underscores(optional)
+- Injected into route callbacks/controllers based on their order & name of the route callback/controller argument doesn't matter
+
+### **Route parameters with dependencies**
+
+If you have dependencies to inject along with route parameters then list your route parameters after injection of dependencies:
+
+```php
+use Illuminate\Http\Request;
+
+Route::get('/user/{id}', function (Request $request, $id) {
+    return 'User '.$id;
+});
+```
+
+### **Optional Route Parameters**
+
+If you need to specify optional route parameters then you can do by placing a `?` after the parameter name. Make sure to provide a default value for corresponding variable.
+
+```php
+Route::get('/user/{name?}', function ($name = null) {
+    return $name;
+});
+
+Route::get('/user/{name?}', function ($name = 'John') {
+    return $name;
+});
+```
+
+### **Constraint the format of Route Parameters**
+
+`where` method can be used to constraint the route parameter on a route instance. `where` method accepts the name and regular expression as parameter:
+
+```php
+Route::get('/user/{id}', function($id){
+    //...
+})->where('id','[0-9]+');
+
+Route::get('/user/{name}', function($name){
+    // ...
+})->where('name','[A-Za-z]+');
+
+Route::get('/user/{id}/{name}',function($id, $name){
+    //...
+})->where(['id'=>'[0-9]+', 'name'=>'[A-Za-z]+']);
+```
+
+For convenience, some of the regular expressions have helper methods which can be directly used.
+
+- whereNumber( ) (pattern: [0-9]+)
+- whereAlpha( ) (pattern: [A-Za-z]+)
+- whereAlphaNumric( ) (pattern: [A-Za-z0-9]+)
