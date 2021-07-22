@@ -1,5 +1,6 @@
 # Routing and Controllers: Basics
 
+## **Basic Routing**
 This is how most basic Laravel Routes looks like. It simply accepts URI & Closure.
 
 ```php
@@ -34,7 +35,7 @@ Route::delete($uri, $callback);
 Route::options($uri, $callback);
 ```
 
-## Dependency Injection
+### Dependency Injection
 
 If any dependencies are required in the route callback then it can be resolved by injecting it to the callback function.
 
@@ -62,7 +63,7 @@ Any HTML forms having POST, PUT, PATCH, DELETE web routes then form should inclu
 If you are defining routes that redirects to another URI then use the `Route::redirect` method.
 
 ```php
-Route::redirect('/here', '/there');
+Route::redirect('/here', '/there'); //e.g. user will enter http://localhost/here and it will redirect them to http://localhost/there 
 ```
 
 By default, above method returns `302` status code. But if you want to customize the status code then pass it as third optional parameter:
@@ -75,4 +76,19 @@ Route::redirect('/here', '/there', 301);
 
  ```php
 Route::permanentRedirect('/here', '/there');
+```
+
+## **View Routes**
+
+If your route needs to return only view then you may use the `Route::view` method like redirect method. This method only accepts a URI as first argument and view name as second argument. As third option, you can also pass the array of data to view.
+
+```php
+//View route sytax
+Route::view($uri, $viewname);
+
+//Simple view route example
+Route::view('/welcome', 'welcome');
+
+//View route with optional data array as third parameter
+Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 ```
