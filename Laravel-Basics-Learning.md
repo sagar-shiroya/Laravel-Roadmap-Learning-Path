@@ -92,3 +92,31 @@ Route::view('/welcome', 'welcome');
 //View route with optional data array as third parameter
 Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 ```
+
+## **Basic controllers with Routes**
+
+Controller extends the base controller class included in Laravel.
+
+```php
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+
+class ExampleController extends Controller
+{
+    public function action($params)
+    {
+        // ...
+    }
+}
+```
+
+Route for above controller will look like below:
+
+```php
+use App\Http\Controllers\ExampleController;
+
+Route::get('/example/{params}', [ExampleController::class, 'action']);
+```
+
+When an incoming request matches the specified route URI, the `action` method of the  `App\Http\Controllers\ExampleController` class will be invoked.
