@@ -45,3 +45,34 @@ Route::get('/users', function (Request $request) {
     // ...
 });
 ```
+
+### **CSRF Protection**
+
+Any HTML forms having POST, PUT, PATCH, DELETE web routes then form should include CSRF token field. Otherwise the request will be rejected with Error 503.
+
+```HTML
+<form method="POST" action="/profile">
+    @csrf
+    ...
+</form>
+```
+
+### **Redirect Routes**
+
+If you are defining routes that redirects to another URI then use the `Route::redirect` method.
+
+```php
+Route::redirect('/here', '/there');
+```
+
+By default, above method returns `302` status code. But if you want to customize the status code then pass it as third optional parameter:
+
+```php
+Route::redirect('/here', '/there', 301);
+```
+
+`Route::permanentRedirect` method return a 301 status code by default.
+
+ ```php
+Route::permanentRedirect('/here', '/there');
+```
