@@ -257,3 +257,17 @@ Hello, {!! $name !!}.
 <!-- HTML output -->
 @json()
 ```
+
+### **Blade basics - If statements**
+
+We can construct if statement in blade template using `@if`, `@elseif`, `@else` and `@endif` directives.
+
+```php
+@if (count($records) === 1)
+    I have one record!
+@elseif (count($records) > 1)
+    I have multiple records!
+@else
+    I dont have any records!
+@endif
+```
